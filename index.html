@@ -10,7 +10,7 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>STUDENT TODO Website</title>
+    <title>Seungju Website</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="external/normalize.css" />
@@ -26,6 +26,7 @@
         rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 
 <body>
@@ -58,7 +59,7 @@
         <h1 class="section__title section__title--intro">
             Hi, I am <strong>Seungju Song</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">Game Programmer/Designer/Developer/Player/TODO/TODO</p>
+        <p class="section__subtitle section__subtitle--intro">Game Programmer/Designer/Developer/Player/Seungju</p>
         <img src="img/face.jpg" alt="a picture of Seungju Song" class="intro__img" />
     </section>
 
@@ -67,29 +68,20 @@
         <h2 class="section__title section__title--services">SKLILZ</h2>
         <div class="services">
             <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
+                <h3>Mechanic Design & Implementation</h3>
+                <p> I excel at analyzing the core "fun elements" of a game, conceptualizing them into innovative mechanics, and bringing them to life. Moving beyond just pitching ideas, I meticulously design system logic and AI flowcharts to translate concepts into polished, hands-on gameplay experiences.
                 </p>
             </div>
 
             <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
+                <h3>Architecture & System Optimization</h3>
+                <p> I thrive on continuously exploring and applying better algorithms and data structures to achieve peak performance. By deeply considering efficient low-level architecture, such as custom memory management, I effectively resolve technical bottlenecks to build stable and highly optimized gaming environments.
                 </p>
             </div>
 
             <div class="service">
-                <h3>SKILL TODO</h3>
-                <p> TODO
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.
+                <h3>Communication & Leadership</h3>
+                <p> Serving as a Design Lead across various team projects, I have honed the flexible communication skills needed to align diverse perspectives and guide teams toward a unified goal. I am particularly strong in public speaking and pitching, effectively conveying the project's vision and design intent to foster seamless collaboration and elevate the final product.
                 </p>
             </div>
         </div>
@@ -106,18 +98,22 @@
 
         <div class="about-me__body">
             <p>
-                TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                I am a Game Programmer dedicated to creating seamless and engaging player experiences by bridging the gap between low-level system architecture and creative game design. By delving deeply into core programming, 3D graphics rendering, and continuous system optimization, I build robust technical foundations that allow innovative mechanics to shine without performance compromises.
             </p>
             <p>
-                TODO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                Throughout my academic journey, including multiple terms serving as a Design Lead on comprehensive game projects, I have cultivated a strong ability to unify team visions and communicate complex ideas effectively. I thrive in collaborative environments where I can translate abstract concepts into polished, optimized gameplay, ultimately pushing the boundaries of technical constraints to deliver pure fun.
             </p>
         </div>
-        <img src="img/tall.jpg" alt="picture of TODO TODO" class="about-me__img" />
-    </section>
+
+        <div class="suika-wrapper suika-grid-area">
+            <div class="suika-header">
+                <h3 id="score-display">Score: 0</h3>
+                <button id="reset-button" class="btn">Reset</button>
+            </div>
+            <div id="suika-container">
+                </div>
+        </div>
+</section>
 
     <!-- My Portfolio -->
     <section class="my-projects" id="projects">

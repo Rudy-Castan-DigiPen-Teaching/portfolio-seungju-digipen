@@ -550,3 +550,61 @@ header {
   margin: 0 auto; /* Centering */
   border: none;
 }
+
+
+.suika-wrapper {
+    width: 100%;
+    max-width: 300px; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+}
+
+@media (min-width: 600px) {
+    .suika-grid-area {
+        grid-area: img; 
+    }
+}
+
+.suika-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--clr-dark);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--clr-accent);
+}
+
+.suika-header h3 {
+    font-size: 1rem;
+    color: var(--clr-accent);
+    margin: 0;
+}
+
+#reset-button {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+}
+
+#suika-container {
+    width: 100%;
+    aspect-ratio: 210 / 300; 
+    position: relative;
+    border: 3px solid var(--clr-accent);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: var(--bs);
+    overflow: hidden;
+   
+}
+
+#suika-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
