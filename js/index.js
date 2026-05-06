@@ -73,8 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let isGameOver = false; 
     const scoreDisplay = document.getElementById('score-display');
     const resetButton = document.getElementById('reset-button');
-
-    const radii = [12, 18, 26, 36, 48, 62, 80, 100, 125, 150, 180];
+    
+    const radii = [10, 15, 22, 32, 42, 54, 68, 84, 100, 118, 138];
     const faceImgSrc = 'img/faceball.png'; 
 
     function createFaceBody(x, y, level) {
@@ -82,8 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const scale = (radius * 2) / 300;
 
         const body = Bodies.circle(x, y, radius, {
-            restitution: 0.2,
-            friction: 0.1,
+            restitution: 0.2,   
+            friction: 0.01,     
+            density: 0.001,     
             render: {
                 sprite: {
                     texture: faceImgSrc,
