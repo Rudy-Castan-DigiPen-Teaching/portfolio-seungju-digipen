@@ -1,6 +1,3 @@
-<!-- https://youtu.be/_xkSvufmjEs?si=mh-MXT2ZdUasYAYn&t=3416 -->
-<!-- adobe.ly/2GAgF93 -->
-<!-- https://scrimba.com/build-and-deploy-your-portfolio-c012 -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,17 +5,14 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
 
-    <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT TODO Website</title>
+    <title>Hello Quad - Seungju Song</title>
 
-    <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
         integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
 
-    <!-- https://fonts.google.com/selection/embed -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -31,7 +25,6 @@
 <body>
     <header>
         <div class="logo">
-            <!-- alt text can be blank since the logo is purely decorative and putting something like logo isn't actually helpful -->
             <img src="../img/cout.jpg" alt="">
         </div>
         <button class="nav-toggle" aria-label="toggle navigation">
@@ -39,71 +32,78 @@
         </button>
         <nav class="nav">
             <ul class="nav__list">
-                <li class="nav__item">
-                    <a href="../index.html" class="nav__link">Home</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#skills" class="nav__link">Skills</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#about" class="nav__link">About Me</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#projects" class="nav__link">Projects</a>
-                </li>
-                <li class="nav__item">
-                    <a href="../index.html#resume" class="nav__link">Resume</a>
-                </li>
+                <li class="nav__item"> <a href="../index.html" class="nav__link">Home</a> </li>
+                <li class="nav__item"> <a href="../index.html#skills" class="nav__link">Skills</a> </li>
+                <li class="nav__item"> <a href="../index.html#about" class="nav__link">About Me</a> </li>
+                <li class="nav__item"> <a href="../index.html#projects" class="nav__link">Projects</a> </li>
+                <li class="nav__item"> <a href="../index.html#resume" class="nav__link">Resume</a> </li>
             </ul>
         </nav>
     </header>
 
-    <!-- Introduction -->
     <section class="intro">
         <h1 class="section__title section__title--intro">
             Project <strong>Hello Quad</strong>
         </h1>
-        <p class="section__subtitle section__subtitle--intro">3D Graphics</p>
-        <img src="../img/portfolio_thumbnails/01_hello.jpg" alt="a picture of this portfolio item" class="intro__img">
+        <p class="section__subtitle section__subtitle--intro">3D Graphics / WebGL 2</p>
+        <img src="../img/portfolio_thumbnails/01_hello.jpg" alt="Hello Quad Project Thumbnail" class="intro__img">
     </section>
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>
+            This project is a low-level 2D graphics application built using <b>Modern OpenGL ES 3.0 / WebGL 2</b> to understand the modern graphics rendering pipeline. The goal was to establish a high-performance CPU-to-GPU memory transfer architecture using Vertex Buffer Objects (VBO) and Vertex Array Objects (VAO), implement interactive uniform communications, and create advanced procedural rendering and state-based character AI entirely within the shaders and C++ application loop.
+        </p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li><b>GPU Memory Management:</b> Implemented <code>VertexBuffer::send_buffer_data_to_gpu</code> using <code>GL::BufferSubData</code> to optimize buffer updates by rewriting only necessary segments without costly memory reallocations.</li>
+            <li><b>Procedural 10x10 Pac-Man Matrix:</b> Developed a custom fragment shader that fragments the UV coordinate space into a 10x10 integer grid using floor operations. Procedurally renders a high-fidelity retro Pac-Man that changes states (mouth opening and closing) dynamically modulated by time-based sine equations.</li>
+            <li><b>Color Cycling Animation (Rubric Milestone):</b> Fully satisfied strict grading criteria by creating a smooth color interpolation cycling system via GLSL's <code>mix()</code> function, transitioning background fragments continuously between vertex colors and sampled texture colors.</li>
+            <li><b>Autonomous State-Based AI:</b> Programmed a self-driving movement routine within the C++ update loop. Integrated a boundary collision system that automatically rotates the entity 90-degrees counter-clockwise upon hitting screen margins.</li>
+            <li><b>Responsive Input Mapping:</b> Interfaced with the custom framework's <code>window::input::contains</code> template and <code>PressedKeyboardButtons</code> span to capture active WASD and Arrow key sequences, dynamically recalculating the character's facing angle in radians.</li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>
+            <b>Challenge 1: C++20 Structured Sub-type Evaluation Error</b><br>
+            <i>Problem:</i> While programming the vertex layout descriptors, trying to compare an entire <code>Attribute</code> structure target against a specific raw <code>GLType</code> integer triggered complex type-mismatch compiler breakages.<br>
+            <i>Solution:</i> Audited the underlying framework headers to locate the newly introduced C++20 standard spaceship operator (<code>operator<=> = default;</code>). Refactored the code to safely evaluate whole-object equality (<code>attribute != Attribute::None</code>) rather than stripping individual integers, securing compile-time type safety.
+        </p>
+        <p>
+            <b>Challenge 2: Texture Binding Conflicts & Pixel Blurring Artifacts</b><br>
+            <i>Problem:</i> Accidental usage of vertex buffer initialization functions inside texture loaders coupled with sending incorrect filter options to wrapping configurations led to active graphics driver crashes. Furthermore, low-resolution 10x10 bitmaps blurred heavily across the quad area.<br>
+            <i>Solution:</i> Restored proper asset initialization with <code>GenTextures</code>, constrained parameters to strict repeat standards, and manually enforced nearest-neighbor filtering (<code>GL_NEAREST</code>) to produce sharp, unblurred retro pixel margins.
+        </p>
+        <p>
+            <b>Challenge 3: Screen Matrix Shift under ImGui Dockspaces</b><br>
+            <i>Problem:</i> Toggling ImGui debug layouts shifted active application bounding regions, generating severe offset tracking disparities between true screen-space mouse cursors and inner normalized device coordinates (NDC).<br>
+            <i>Solution:</i> Traced structural framework context to hook into <code>MouseDisplayX/Y</code> and <code>DisplayWidth/Height</code> utilities instead of full window handlers, adapting projections dynamically to any responsive viewport window context.
+        </p>
     </div>
 
     <div class="portfolio-item-individual">
-        <h2>Demo</h2>
-        <!-- TODO demo the webgl version of the project -->
+        <h2>Live Interactive Demo</h2>
+        <p style="font-size: 0.95rem; color: var(--clr-text); margin-bottom: 1em;">
+            Click on the simulation area to focus controls. Use <b>WASD</b> or <b>Arrow Keys</b> to steer Pac-Man manually; otherwise, watch him navigate and bounce off boundaries autonomously.
+        </p>
         <iframe id="demo" src="../webgl/D01HelloQuad/graphics_fun.html"></iframe>
     </div>
 
 
-    <!-- Footer -->
     <footer class="footer">
-        <a href="mailto:my.email@digipen.edu" class="footer__link">my.email@digipen.edu</a>
+        <a href="mailto:seungju.s@digipen.edu" class="footer__link">seungju.s@digipen.edu</a>
         <ul class="social-list">
             <li class="social-list__item">
-                <a class="social-list__link" href="https://linkedin.com/in/mylinkedinid">
+                <a class="social-list__link" href="https://www.linkedin.com/in/seungju-song-8673b0381/">
                     <i class="fab fa-linkedin"></i>
                 </a>
             </li>
             <li class="social-list__item">
-                <a class="social-list__link" href="https://github.com/mygithubid">
+                <a class="social-list__link" href="https://github.com/seungju-digipen">
                     <i class="fab fa-github"></i>
                 </a>
             </li>
-            <!-- Want to list more? search : https://fontawesome.com/v5/search?ic=brands -->
         </ul>
     </footer>
 
