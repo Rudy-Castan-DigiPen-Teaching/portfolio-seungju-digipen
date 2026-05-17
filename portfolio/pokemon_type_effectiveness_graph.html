@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Graph - Seungju Song</title>
+
+    <link rel="stylesheet" href="../external/normalize.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+        integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+
+    <style>
+        /* p5.js Canvas & Controls Styling to match the portfolio theme */
+        #demo-container { display: flex; flex-direction: column; align-items: center; background-color: #f8f9fa; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow-x: auto; margin-top: 1em; }
+        #controls { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-wrap: wrap; justify-content: center; }
+        select, button, label { font-size: 14px; padding: 5px; cursor: pointer; font-family: 'Malgun Gothic', sans-serif; }
+        canvas { box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; background: white; cursor: default; max-width: 100%; height: auto; }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../img/cout.jpg" alt="">
+        </div>
+        <button class="nav-toggle" aria-label="toggle navigation">
+            <span class="hamburger"></span>
+        </button>
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__item"> <a href="../index.html" class="nav__link">Home</a> </li>
+                <li class="nav__item"> <a href="../index.html#skills" class="nav__link">Skills</a> </li>
+                <li class="nav__item"> <a href="../index.html#about" class="nav__link">About Me</a> </li>
+                <li class="nav__item"> <a href="../index.html#projects" class="nav__link">Projects</a> </li>
+                <li class="nav__item"> <a href="../index.html#pokemon-graph" class="nav__link">Pokémon Graph</a> </li>
+                <li class="nav__item"> <a href="../index.html#resume" class="nav__link">Resume</a> </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="intro">
+        <h1 class="section__title section__title--intro">
+            Project <strong>Pokémon Graph</strong>
+        </h1>
+        <p class="section__subtitle section__subtitle--intro">Interactive p5.js Network</p>
+        <img src="../img/portfolio_thumbnails/pokemon_graph.jpg" alt="Pokemon Graph Project Thumbnail" class="intro__img">
+    </section>
+
+    <div class="portfolio-item-individual">
+        <h2>Live Interactive Demo</h2>
+        <p style="font-size: 0.95rem; color: var(--clr-text); margin-bottom: 1em;">
+            Try <b>clicking </b>or <b>hovering </b>over the type nodes to check out the matchups. You can filter the attack/defense matchups individually using the mode buttons at the top.
+        </p>
+        
+        <div id="demo-container">
+            <div id="controls">
+                <label id="lblTypeSelect" for="typeSelect">기준 타입:</label>
+                <select id="typeSelect"></select>
+                
+                <label id="lblMode" style="margin-left: 15px;">모드:</label>
+                <label><input type="radio" name="mode" value="all" checked> <span id="lblAll">모두 보기</span></label>
+                <label><input type="radio" name="mode" value="attack"> <span id="lblAttack">공격만</span></label>
+                <label><input type="radio" name="mode" value="defense"> <span id="lblDefense">방어만</span></label>
+                
+                <button id="resetBtn" style="margin-left: 15px;">초기화</button>
+            </div>
+            
+            <div id="canvas-container"></div>
+        </div>
+    </div>
+
+    <div class="portfolio-item-individual">
+        <h2>Project Overview</h2>
+        <p>
+            This project is an interactive web app built with <b>p5.js</b>that visualizes the 18 Pokemon type matchups. I started it to fix a design problem: classic text tables make it super hard to intuitively grasp complex type relations. I focused on creating a visual solution where users can dynamically filter and explore just the attack and defense matchups they want to see.
+        </p>
+
+        <h2>Tasks Completed</h2>
+        <ul>
+            <li><b>Interactive Network Visualization:</b> I set up 18 type nodes using p5.js and implemented math-based animations so the layout smoothly transitions (lerp) to focus on a selected type via mouse hover and click events.</li>
+            <li><b>Dynamic Matchup Filtering:</b> I built a state management system that controls the rendered edges in real-time based on the user's choice, adding 'Attack only', 'Defense only', and 'View all' modes.</li>
+            <li><b>Data-Driven Rendering:</b> I modularized the 18x18 array Type Chart data into objects to calculate damage multipliers (2x, 0.5x, 0x, etc.) between specific types, visualizing them through line colors, thicknesses, and dashed styles.</li>
+        </ul>
+
+        <h2>Reflection</h2>
+        <p>
+            <b>Challenge 1: Visual Clutter from Complex Data</b><br>
+            <i>Problem:</i> Rendering every single matchup (edge) between the 18 types on the screen at once caused lines to overlap heavily, ruining readability and causing visual fatigue.<br>
+            <i>Solution:</i> When a user clicks or hovers over a specific node, that node moves to the center of the screen, and only its related matchup edges are clearly highlighted (Alpha 1.0). I applied a dynamic layout that drops the opacity of the unselected elements (Alpha 0.1 ~ 0.25) so the user can focus purely on the key info.
+        </p>
+        <p>
+            <b>Challenge 2: Dynamic i18n for Global Accessibility</b><br>
+            <i>Problem:</i> Outputting text hardcoded in a single language (Korean) drops accessibility for users from other regions. Plus, I had to consistently translate the text rendered inside both the DOM elements and the p5.js canvas.<br>
+            <i>Solution:</i> I used the <code>navigator.language</code> API to detect the client's default browser language. Based on this, I designed a multi-language object (i18n) that dynamically maps UI text, canvas node names, and legends, ensuring Korean and English switch naturally depending on the user's environment.
+        </p>
+    </div>
+
+
+
+    <footer class="footer">
+        <a href="mailto:seungju.s@digipen.edu" class="footer__link">seungju.s@digipen.edu</a>
+        <ul class="social-list">
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://www.linkedin.com/in/seungju-song-8673b0381/">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </li>
+            <li class="social-list__item">
+                <a class="social-list__link" href="https://github.com/seungju-digipen">
+                    <i class="fab fa-github"></i>
+                </a>
+            </li>
+        </ul>
+    </footer>
+
+    <script src="../js/index.js"></script>
+
+    <script>
+    const isKorean = navigator.language.startsWith('ko');
+
+    const i18n = {
+      ko: {
+        title: "포켓몬 타입 상성 네트워크 (p5.js)",
+        typeSelect: "기준 타입:",
+        defaultOption: "--- 타입 선택 ---",
+        mode: "모드:",
+        modeAll: "모두 보기",
+        modeAttack: "공격만",
+        modeDefense: "방어만",
+        resetBtn: "초기화",
+        legendTitle: "상성 선 스타일",
+        legend2x: "2배 (유리/약점)",
+        legend1x: "1배 (보통)",
+        legend05x: "0.5배 (반감)",
+        legend0x: "0배 (무효)"
+      },
+      en: {
+        title: "Pokémon Matchup Network (p5.js)",
+        typeSelect: "Base Type:",
+        defaultOption: "--- Select Type ---",
+        mode: "Mode:",
+        modeAll: "All",
+        modeAttack: "Attack Only",
+        modeDefense: "Defense Only",
+        resetBtn: "Reset",
+        legendTitle: "Matchup Lines",
+        legend2x: "2x (Super Effective/Weak)",
+        legend1x: "1x (Normal)",
+        legend05x: "0.5x (Resists)",
+        legend0x: "0x (Immune)"
+      }
+    };
+    const t = isKorean ? i18n.ko : i18n.en;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('lblTypeSelect').innerText = t.typeSelect;
+      document.getElementById('lblMode').innerText = t.mode;
+      document.getElementById('lblAll').innerText = t.modeAll;
+      document.getElementById('lblAttack').innerText = t.modeAttack;
+      document.getElementById('lblDefense').innerText = t.modeDefense;
+      document.getElementById('resetBtn').innerText = t.resetBtn;
+    });
+
+    const typesData = [
+      { id: '노말', en: 'Normal', color: '#A8A878' }, { id: '불꽃', en: 'Fire', color: '#F08030' },
+      { id: '물', en: 'Water', color: '#6890F0' }, { id: '풀', en: 'Grass', color: '#78C850' },
+      { id: '전기', en: 'Electric', color: '#F8D030' }, { id: '얼음', en: 'Ice', color: '#98D8D8' },
+      { id: '격투', en: 'Fighting', color: '#C03028' }, { id: '독', en: 'Poison', color: '#A040A0' },
+      { id: '땅', en: 'Ground', color: '#E0C068' }, { id: '비행', en: 'Flying', color: '#A890F0' },
+      { id: '에스퍼', en: 'Psychic', color: '#F85888' }, { id: '벌레', en: 'Bug', color: '#A8B820' },
+      { id: '바위', en: 'Rock', color: '#B8A038' }, { id: '고스트', en: 'Ghost', color: '#705898' },
+      { id: '드래곤', en: 'Dragon', color: '#7038F8' }, { id: '악', en: 'Dark', color: '#705848' },
+      { id: '강철', en: 'Steel', color: '#B8B8D0' }, { id: '페어리', en: 'Fairy', color: '#EE99AC' }
+    ];
+
+    const typeChart = {
+      '노말': { '바위': 0.5, '고스트': 0, '강철': 0.5 },
+      '불꽃': { '불꽃': 0.5, '물': 0.5, '풀': 2, '얼음': 2, '벌레': 2, '바위': 0.5, '드래곤': 0.5, '강철': 2 },
+      '물': { '불꽃': 2, '물': 0.5, '풀': 0.5, '땅': 2, '바위': 2, '드래곤': 0.5 },
+      '풀': { '불꽃': 0.5, '물': 2, '풀': 0.5, '독': 0.5, '땅': 2, '비행': 0.5, '벌레': 0.5, '바위': 2, '드래곤': 0.5, '강철': 0.5 },
+      '전기': { '물': 2, '풀': 0.5, '전기': 0.5, '땅': 0, '비행': 2, '드래곤': 0.5 },
+      '얼음': { '불꽃': 0.5, '물': 0.5, '풀': 2, '얼음': 0.5, '땅': 2, '비행': 2, '드래곤': 2, '강철': 0.5 },
+      '격투': { '노말': 2, '얼음': 2, '독': 0.5, '비행': 0.5, '에스퍼': 0.5, '벌레': 0.5, '바위': 2, '고스트': 0, '악': 2, '강철': 2, '페어리': 0.5 },
+      '독': { '풀': 2, '독': 0.5, '땅': 0.5, '바위': 0.5, '고스트': 0.5, '강철': 0, '페어리': 2 },
+      '땅': { '불꽃': 2, '전기': 2, '풀': 0.5, '독': 2, '비행': 0, '벌레': 0.5, '바위': 2, '강철': 2 },
+      '비행': { '전기': 0.5, '풀': 2, '격투': 2, '벌레': 2, '바위': 0.5, '강철': 0.5 },
+      '에스퍼': { '격투': 2, '독': 2, '에스퍼': 0.5, '악': 0, '강철': 0.5 },
+      '벌레': { '불꽃': 0.5, '풀': 2, '격투': 0.5, '독': 0.5, '비행': 0.5, '에스퍼': 2, '고스트': 0.5, '악': 2, '강철': 0.5, '페어리': 0.5 },
+      '바위': { '불꽃': 2, '얼음': 2, '격투': 0.5, '땅': 0.5, '비행': 2, '벌레': 2, '강철': 0.5 },
+      '고스트': { '노말': 0, '에스퍼': 2, '고스트': 2, '악': 0.5 },
+      '드래곤': { '드래곤': 2, '강철': 0.5, '페어리': 0 },
+      '악': { '격투': 0.5, '에스퍼': 2, '고스트': 2, '악': 0.5, '페어리': 0.5 },
+      '강철': { '불꽃': 0.5, '물': 0.5, '전기': 0.5, '얼음': 2, '바위': 2, '강철': 0.5, '페어리': 2 },
+      '페어리': { '불꽃': 0.5, '격투': 2, '독': 0.5, '드래곤': 2, '악': 2, '강철': 0.5 }
+    };
+
+    let nodes = [];
+    let selectedType = null;
+    let currentMode = 'all'; 
+    const radiusDefault = 300;
+    const nodeSize = 50;
+
+    function setup() {
+      let cnv = createCanvas(800, 800);
+      cnv.parent('canvas-container');
+      cnv.mousePressed(onCanvasClick);
+      
+      let selectEl = select('#typeSelect');
+      selectEl.option(t.defaultOption, '');
+      
+      for (let i = 0; i < typesData.length; i++) {
+        let displayName = isKorean ? typesData[i].id : typesData[i].en;
+        nodes.push({
+          id: typesData[i].id, 
+          name: displayName,
+          color: typesData[i].color,
+          x: width / 2, y: height / 2,
+          targetX: 0, targetY: 0
+        });
+        selectEl.option(displayName, typesData[i].id);
+      }
+
+      selectEl.changed(() => {
+        selectedType = selectEl.value() === '' ? null : selectEl.value();
+        updateTargets();
+      });
+
+      selectAll('input[name="mode"]').forEach(radio => {
+        radio.changed(() => { currentMode = radio.value(); });
+      });
+
+      select('#resetBtn').mousePressed(() => {
+        resetSelection();
+      });
+
+      updateTargets();
+    }
+
+    function resetSelection() {
+      select('#typeSelect').value('');
+      selectedType = null;
+      currentMode = 'all';
+      select('input[value="all"]').elt.checked = true;
+      updateTargets();
+    }
+
+    function onCanvasClick() {
+      let clickedOnNode = false;
+      
+      for (let n of nodes) {
+        let d = dist(mouseX, mouseY, n.x, n.y);
+        if (d <= nodeSize / 2) {
+          if (selectedType === n.id) {
+            resetSelection();
+          } else {
+            selectedType = n.id;
+            select('#typeSelect').value(n.id);
+            updateTargets();
+          }
+          clickedOnNode = true;
+          break;
+        }
+      }
+      
+      if (!clickedOnNode) {
+        resetSelection();
+      }
+    }
+
+    function updateTargets() {
+      let cx = width / 2;
+      let cy = height / 2;
+      
+      if (selectedType === null) {
+        for (let i = 0; i < nodes.length; i++) {
+          let angle = map(i, 0, nodes.length, 0, TWO_PI) - HALF_PI;
+          nodes[i].targetX = cx + cos(angle) * radiusDefault;
+          nodes[i].targetY = cy + sin(angle) * radiusDefault;
+        }
+      } else {
+        let others = nodes.filter(n => n.id !== selectedType);
+        let centerNode = nodes.find(n => n.id === selectedType);
+        
+        centerNode.targetX = cx;
+        centerNode.targetY = cy;
+
+        for (let i = 0; i < others.length; i++) {
+          let angle = map(i, 0, others.length, 0, TWO_PI) - HALF_PI;
+          others[i].targetX = cx + cos(angle) * radiusDefault;
+          others[i].targetY = cy + sin(angle) * radiusDefault;
+        }
+      }
+    }
+
+    function getEffectiveness(atkId, defId) {
+      if (typeChart[atkId] && typeChart[atkId][defId] !== undefined) return typeChart[atkId][defId];
+      return 1;
+    }
+
+    function draw() {
+      background(253);
+
+      let hoveredId = null;
+      if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+        for (let n of nodes) {
+          if (dist(mouseX, mouseY, n.x, n.y) <= nodeSize / 2) {
+            hoveredId = n.id;
+            break;
+          }
+        }
+      }
+      cursor(hoveredId ? HAND : ARROW);
+
+      for (let n of nodes) {
+        n.x = lerp(n.x, n.targetX, 0.08);
+        n.y = lerp(n.y, n.targetY, 0.08);
+      }
+
+      let activeId = selectedType !== null ? selectedType : hoveredId;
+
+      drawEdges(activeId);
+
+      for (let n of nodes) {
+        let isActive = (activeId === null || activeId === n.id);
+        
+        push();
+        if (!isActive) {
+          drawingContext.globalAlpha = 0.25;
+        }
+        
+        fill(n.color);
+        stroke(0);
+        strokeWeight(2);
+        circle(n.x, n.y, nodeSize);
+        
+        fill(0);
+        noStroke();
+        textAlign(CENTER, CENTER);
+        textStyle(BOLD);
+        textSize(isKorean ? 14 : 12);
+        stroke(255);
+        strokeWeight(3);
+        text(n.name, n.x, n.y);
+        noStroke();
+        fill(0);
+        text(n.name, n.x, n.y);
+        pop();
+      }
+      
+      drawLegend();
+
+      if (activeId === null && currentMode !== 'all') {
+        fill(100);
+        noStroke();
+        textAlign(CENTER, CENTER);
+        textStyle(BOLD);
+        textSize(isKorean ? 16 : 14);
+        let modeText = currentMode === 'attack' ? (isKorean ? '공격' : 'Attack') : (isKorean ? '방어' : 'Defense');
+        let guideText = isKorean
+            ? `💡 원하는 타입에 마우스를 올려 [${modeText} 상성]만 확인해 보세요.`
+            : `💡 Hover over a type to see its [${modeText}] matchups!`;
+        text(guideText, width / 2, height - 30);
+      }
+    }
+
+    function drawEdges(activeId) {
+      for (let atk of nodes) {
+        for (let def of nodes) {
+          let eff = getEffectiveness(atk.id, def.id);
+          
+          if (activeId === null) {
+            let edgeAlpha = currentMode === 'all' ? 1.0 : 0.1;
+            if (eff !== 2 && eff !== 0) continue;
+            drawArrow(atk, def, eff, edgeAlpha);
+          } else {
+            let isAtkSelected = (atk.id === activeId);
+            let isDefSelected = (def.id === activeId);
+            
+            if (!isAtkSelected && !isDefSelected) continue;
+            
+            if (currentMode === 'attack' && !isAtkSelected) continue;
+            if (currentMode === 'defense' && !isDefSelected) continue;
+
+            drawArrow(atk, def, eff, 1.0);
+          }
+        }
+      }
+    }
+
+    function drawArrow(n1, n2, eff, alphaVal = 1.0) {
+      push();
+      drawingContext.globalAlpha = alphaVal;
+      
+      if (eff === 2) {
+        stroke('#E74C3C'); strokeWeight(3);
+      } else if (eff === 1) {
+        stroke('#BDC3C7'); strokeWeight(1);
+      } else if (eff === 0.5) {
+        stroke('#E67E22'); strokeWeight(2); drawingContext.setLineDash([5, 5]);
+      } else if (eff === 0) {
+        stroke('#7F8C8D'); strokeWeight(2); drawingContext.setLineDash([10, 10]);
+      }
+
+      if (n1.id === n2.id) {
+        if (eff !== 1) {
+          noFill();
+          let cx = n1.x + nodeSize / 1.5;
+          let cy = n1.y - nodeSize / 1.5;
+          bezier(n1.x, n1.y - 10, cx, cy - 40, cx + 40, cy, n1.x + 10, n1.y);
+          
+          fill('#E74C3C'); noStroke();
+          translate(n1.x + 10, n1.y);
+          rotate(PI / 4);
+          triangle(0, -6, 10, 0, 0, 6);
+        }
+      } else {
+        let d = dist(n1.x, n1.y, n2.x, n2.y);
+        if (d > nodeSize) {
+          let dx = (n2.x - n1.x) / d;
+          let dy = (n2.y - n1.y) / d;
+          let startX = n1.x + dx * (nodeSize / 2);
+          let startY = n1.y + dy * (nodeSize / 2);
+          let endX = n2.x - dx * (nodeSize / 2 + 5);
+          let endY = n2.y - dy * (nodeSize / 2 + 5);
+
+          line(startX, startY, endX, endY);
+          drawingContext.setLineDash([]);
+
+          let angle = atan2(endY - startY, endX - startX);
+          translate(endX, endY);
+          rotate(angle);
+          
+          if (eff === 2) fill('#E74C3C');
+          else if (eff === 1) fill('#BDC3C7');
+          else if (eff === 0.5) fill('#E67E22');
+          else if (eff === 0) fill('#7F8C8D');
+          
+          noStroke();
+          triangle(-10, -6, 2, 0, -10, 6);
+        }
+      }
+      pop();
+    }
+
+    function drawLegend() {
+      push();
+      fill(255, 240);
+      stroke(200);
+      let w = isKorean ? 160 : 250;
+      let h = 130;
+      
+      let legendX = width - w - 15;
+      let legendY = height - h - 15;
+      
+      rect(legendX, legendY, w, h, 8);
+      
+      textAlign(LEFT, CENTER);
+      textSize(13);
+      noStroke();
+      fill(0);
+      textStyle(BOLD);
+      text(t.legendTitle, legendX + 10, legendY + 15);
+      
+      textStyle(NORMAL);
+      
+      stroke('#E74C3C'); strokeWeight(3); line(legendX + 10, legendY + 35, legendX + 40, legendY + 35);
+      noStroke(); fill(0); text(t.legend2x, legendX + 50, legendY + 35);
+      
+      stroke('#BDC3C7'); strokeWeight(1); line(legendX + 10, legendY + 55, legendX + 40, legendY + 55);
+      noStroke(); fill(0); text(t.legend1x, legendX + 50, legendY + 55);
+      
+      stroke('#E67E22'); strokeWeight(2); drawingContext.setLineDash([5, 5]); line(legendX + 10, legendY + 75, legendX + 40, legendY + 75);
+      noStroke(); fill(0); text(t.legend05x, legendX + 50, legendY + 75);
+      
+      stroke('#7F8C8D'); strokeWeight(2); drawingContext.setLineDash([10, 10]); line(legendX + 10, legendY + 95, legendX + 40, legendY + 95);
+      noStroke(); fill(0); text(t.legend0x, legendX + 50, legendY + 95);
+      
+      pop();
+    }
+    </script>
+</body>
+
+</html>
