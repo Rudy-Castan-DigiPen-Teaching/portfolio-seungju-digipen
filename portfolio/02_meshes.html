@@ -71,17 +71,22 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>This project is a Procedural Mesh Generation demo developed as part of the CS250 (Computer Graphics II) coursework. Instead of loading external 3D models, the primary goal was to mathematically calculate and generate 3D geometric shapes (Plane, Cube, Sphere, Torus, Cylinder, Cone) at runtime. Furthermore, it aimed to support cross-platform compatibility by ensuring the C++/OpenGL desktop application runs seamlessly in a web browser (WebGL) using Emscripten.</p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li><strong>Procedural 3D Geometry Algorithms:</strong> Implemented C++ functions to mathematically calculate and generate vertices (positions, normal vectors, UV coordinates) and index buffers for various geometric shapes, including Planes, Cubes, Spheres, Toruses, Cylinders, and Cones.</li>
+            <li><strong>Multiple Rendering Modes:</strong> Wrote index pattern conversion logic to support not only standard triangle mesh rendering but also wireframe (Lines) and normal vector visualization.</li>
+            <li><strong>Demo Environment Integration:</strong> Modified the DemosFactory and the main application loop to properly initialize and render the Procedural Meshes demo within the rendering pipeline.</li>
+            <li><strong>Technologies Used:</strong> C++20, OpenGL (WebGL2), GLM (Mathematics library), SDL2 (Window/Input), Dear ImGui (UI), Emscripten.</li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <ul>
+            <li><strong>Challenges:</strong> Porting the project to WebAssembly via Emscripten introduced strict type warnings that caused build failures. The main issues were conflicts between signed (<code>int</code>) and unsigned (<code>size_t</code>, <code>unsigned</code>) integers during <code>std::vector</code> size allocations and index calculations, as well as implicit double promotions during floating-point operations.</li>
+            <li><strong>Solutions:</strong> I reviewed the codebase and applied explicit <code>static_cast&lt;size_t&gt;</code> and <code>static_cast&lt;unsigned&gt;</code> conversions to variables used in <code>reserve()</code> calls and index generation logic. Additionally, I prevented unintended double casting by appending the <code>f</code> suffix to floating-point constants (e.g., <code>1.25f</code>) during DeltaTime calculations and removed unused helper functions, which resolved all compile errors.</li>
+            <li><strong>Learnings:</strong> By directly handling the structure of vertex and index arrays at a low level, I gained a deep understanding of procedural modeling and the rendering pipeline. Most importantly, this experience highlighted the engineering importance of type safety and adhering to strict compiler standards when writing cross-platform code, especially for WebGL environments.</li>
+        </ul>
     </div>
 
     <div class="portfolio-item-individual">
