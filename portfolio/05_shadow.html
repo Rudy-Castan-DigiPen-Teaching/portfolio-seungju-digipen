@@ -10,7 +10,7 @@
 
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT TODO Website</title>
+    <title>Shadow Mapping - Seungju Song</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
@@ -69,17 +69,19 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>This project focuses on implementing Shadow Mapping, a core technique for real-time 3D rendering. It involves a two-pass rendering pipeline: generating a depth map from the light's perspective and utilizing it within the camera's viewport to calculate accurate shadows.</p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li>Depth Pass: Implemented a WriteDepth shader to store scene depth information in a FrameBuffer from the light's perspective.</li>
+            <li>Shadow Pass: Developed a shadow detection algorithm using ShadowMatrix to transform world coordinates into light space, optimizing visual fidelity.</li>
+            <li>Optimization & Performance: * Implemented TexStorage2D for immutable storage, enhancing stability and performance in WebGL environments.</li>
+            <li>Camera System: Refined View and World matrix calculations to ensure precise coordinate transformations and seamless switching between camera modes.</li>
+
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>Porting the project to a WebGL environment presented unique challenges, particularly regarding GPU memory management and rendering stability. By optimizing texture allocation and transitioning to a more efficient rendering pipeline, I gained a deeper understanding of hardware-level constraints. This project reinforced the importance of mathematical precision in graphics programming and the necessity of tailoring rendering techniques to meet performance targets in web-based applications.</p>
     </div>
 
     <div class="portfolio-item-individual">
