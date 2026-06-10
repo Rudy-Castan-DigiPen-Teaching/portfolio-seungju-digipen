@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="../img/face.jpg">
     <!-- Help auto scale for desktop & mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT TODO Website</title>
+    <title>Gradient Value - Seungju Song</title>
 
     <!-- Normalize the difference across browsers  https://necolas.github.io/normalize.css/ -->
     <link rel="stylesheet" href="../external/normalize.css">
@@ -68,17 +68,23 @@
 
     <div class="portfolio-item-individual">
         <h2>Project Overview</h2>
-        <p>Provide a brief description of the project, its purpose, and what you aimed to achieve.</p>
+        <p>Implemented an Improved 3D Perlin Gradient Noise algorithm, leveraging 12 fixed gradient vectors and quintic interpolation for natural, high-fidelity noise generation. Developed a custom GPU-based pipeline using R32F framebuffers for efficient noise baking and 3D terrain visualization.</p>
 
         <h2>Tasks Completed</h2>
         <ul>
-            <li>Describe the tasks you completed for this project.</li>
-            <li>Be specific about your contributions and the technologies used.</li>
+            <li><strong>Core Algorithm:</strong> Engineered the Improved Perlin Noise logic, utilizing a hardcoded permutation table and fixed gradient vectors.</li>
+            <li><strong>GPU Pipeline:</strong> Configured <code>R32F</code> framebuffers to store high-precision noise data, enabling seamless integration into 3D shaders.</li>
+            <li><strong>Procedural Patterns:</strong> Developed five distinct noise patterns: Plain, Fractal Sum, Turbulence, Marble, and Wood.</li>
+            <li><strong>Visualization:</strong>
+                <ul>
+                    <li>Designed a 2D texture-mapped quad for noise inspection.</li>
+                    <li>Implemented a vertex displacement shader (<code>surface.vert</code>) to dynamically generate 3D terrain from heightmap data.</li>
+                </ul>
+            </li>
         </ul>
 
         <h2>Reflection</h2>
-        <p>Reflect on the project, discussing any challenges faced, solutions implemented, and what you learned from the
-            experience.</p>
+        <p>This project deepened my understanding of GPU-based procedural generation and vertex displacement mapping. The primary challenge—remapping [-1, 1] noise values to [0, 1] for texture storage—highlighted the importance of data normalization in graphics pipelines. Optimizing the vertex shader to transform geometry based on real-time texture sampling provided valuable insights into rendering performance and efficient shader design.</p>
     </div>
 
     <div class="portfolio-item-individual">
